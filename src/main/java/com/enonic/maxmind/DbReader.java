@@ -22,10 +22,11 @@ import com.maxmind.db.Reader.FileMode;
 public class DbReader
 {
     private final static Logger LOG = LoggerFactory.getLogger( DbReaderBenchmark.class );
-    private final File db = new File( "GeoLite2-City.mmdb" );
+    private final File db = new File( System.getenv("XP_HOME") + "/config/GeoLite2-City.mmdb" );
 
     public JsonNode cityInfo(String ip) throws IOException, InvalidDatabaseException {
-        Reader r = new Reader( db, FileMode.MEMORY_MAPPED, NoCache.getInstance() );
+        //Reader r = new Reader( db, FileMode.MEMORY_MAPPED, NoCache.getInstance() );
+        Reader r = new Reader( db, FileMode.MEMORY_MAPPED, new CHMCache() );
 
         InetAddress ipa = InetAddress.getByName( ip );
 

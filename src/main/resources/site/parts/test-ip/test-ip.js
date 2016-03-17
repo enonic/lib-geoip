@@ -1,36 +1,31 @@
-var geoIpLib = require('/lib/geoip/geoip.js');
+var geoIpLib = require('/lib/geoip');
+
+var thymeleaf = require('/lib/xp/thymeleaf');
 
 // Handle GET request
 exports.get = handleGet;
 
 function handleGet(req) {
-    //var view = resolve('article-list.html'); // The view to render
+    var view = resolve('test-ip.html');
     var model = {};
 
-
-    //log.info(geoIpLib.testMethod());
+    // Run the tests.
+    //model.city = geoIpLib.testMethod();
 
     var host = req.host;
-
-    //log.info(JSON.stringify(req,null,4));
-
     //geoIpLib.cityInfo(host);
-    var info;
+    var info = geoIpLib.cityInfo('67.161.18.244');
 
-    try {
 
-        info = geoIpLib.cityInfo('67.161.18.244');
-        //info = geoIpLib.cityInfo(host);
-        var test = JSON.parse(info);
+    //model.city = JSON.stringify(info, null, 4);
 
-        log.info('Logging the JSON.parse');
-        log.info(JSON.stringify(test, null, 4));
-    } catch (e) {
-        log.error(e);
-    }
+    model.cityName = geoIpLib.cityName(info);
+    model.countryName = geoIpLib.countryName(info);
+    model.countryISO = geoIpLib.countryISO(info);
+    model.cityGeoPoint = geoIpLib.cityGeoPoint(info);
 
 
     return {
-        body: '<div>GeioIP</div>'
+        body: thymeleaf.render(view, model)
     };
 }
