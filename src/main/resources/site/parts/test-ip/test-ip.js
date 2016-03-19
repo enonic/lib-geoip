@@ -25,6 +25,7 @@ function handleGet(req) {
     model.countryName = geoIpLib.countryName(info) || 'No country name';
     model.countryISO = geoIpLib.countryISO(info) || 'No country ISO';
     model.cityGeoPoint = geoIpLib.cityGeoPoint(info) || 'No geo point';
+    model.path = geoIpLib.getCityFromContent('67.161.18.244') || "No path";
 
 
     return {

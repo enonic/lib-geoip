@@ -1,3 +1,5 @@
+var contentLib = require('/lib/xp/content');
+
 exports.testMethod = function() {
     var bean = __.newBean("com.enonic.maxmind.DbReaderBenchmark");
     var text = bean.test();
@@ -47,6 +49,21 @@ exports.cityGeoPoint = function(cityObj) {
     return null;
 }
 
+exports.getCityFromContent = function(ip) {
+    var dbReader = __.newBean("com.enonic.maxmind.DbReadContent");
+    dbReader.dbName = "/GeoLite2-City.mmdb";
+
+    var dbContentStream = contentLib.getAttachmentStream({key: "1ce82bf8-9e01-4056-b068-f51c859ec109", name: "GeoLite2-City.mmdb"});
+    dbReader.is = dbContentStream;
+
+    return dbReader.cityInfo(ip);
+
+    //dbReader.file = dbContentStream; //TODO: Return the file
+
+    //var contentPathBean = __.newBean("com.enonic.xp.content.ContentPath");
+    //var contentPath = dbReader.getFilePath( );
+    //return contentPath;
+}
 
 /*
 {
