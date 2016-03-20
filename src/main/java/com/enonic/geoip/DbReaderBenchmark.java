@@ -1,4 +1,4 @@
-package com.enonic.maxmind;
+package com.enonic.geoip;
 
 /**
  * Created by mla on 3/11/16.

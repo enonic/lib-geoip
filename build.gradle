@@ -13,6 +13,7 @@ buildscript {
 }
 
 apply plugin: 'com.enonic.xp.app'
+apply plugin: 'maven-publish'
 
 app {
     name = project.appName
@@ -26,18 +27,7 @@ dependencies {
     compile "com.enonic.xp:portal-api:${xpVersion}"
     include "com.maxmind.db:maxmind-db:1.2.0"
     include "com.enonic.xp:lib-content:${xpVersion}"
-    include "com.enonic.xp:lib-portal:${xpVersion}"
     include "com.enonic.xp:lib-thymeleaf:${xpVersion}"
-    //include "com.enonic.xp:lib-xslt:${xpVersion}"
-    //include "com.enonic.xp:lib-mustache:${xpVersion}"
-    //include "com.enonic.xp:lib-i18n:${xpVersion}"
-    //include "com.enonic.xp:lib-auth:${xpVersion}"
-    //include "com.enonic.xp:lib-cache:${xpVersion}"
-    //include "com.enonic.xp:lib-context:${xpVersion}"
-    //include "com.enonic.xp:lib-http-client:${xpVersion}"
-    //include "com.enonic.xp:lib-io:${xpVersion}"
-    //include "com.enonic.xp:lib-mail:${xpVersion}"
-    //include "com.enonic.xp:lib-websocket:${xpVersion}"
 }
 
 repositories {
@@ -45,5 +35,18 @@ repositories {
     jcenter()
     maven {
         url 'http://repo.enonic.com/public'
+    }
+}
+
+publishing {
+    publications {
+        mavenJava( MavenPublication ) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url 'http://repo.enonic.net/artifactory/public'
+        }
     }
 }
