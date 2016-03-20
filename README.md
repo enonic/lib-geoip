@@ -10,6 +10,7 @@ The database is updated the first Tuesday of each month. The location data will 
 
 ### Gradle build script
 
+```javascript
     repositories {
         maven {
             url 'http://repo.enonic.net/public'
@@ -19,25 +20,34 @@ The database is updated the first Tuesday of each month. The location data will 
     dependencies {
         include 'com.enonic.lib:geoip:1.0.0'
     }
+```
 
 ### Using the library in controllers
 
 First the library must be included.
 
+```javascript
     var libs = {
         geoip: require('/lib/enonic/geiop');
     }
+```
 
-Next, a JSON with the location data can be retrieved with the following function: `libs.geoip.getLocationData(ip, contentKey, fileName)` 
-Parameter `ip` can be IPv4 or IPv6. This can be retrieved from the request object `var ip = req.headers['X-Forwarded-For']`
+Next, a JSON with the location data can be retrieved with the following function: 
+`libs.geoip.getLocationData(ip, contentKey, fileName)` 
+
+Parameter `ip` can be retrieved from the request object `var ip = req.headers['X-Forwarded-For']`
+
 Parameter `contentKey` is the _id or _path (starting with /) of the database content. 
+
 Parameter `fileName` is the name of the content attachment file.
+
 The second and third parameters can be omitted if the database content is at the root of the installation with the path `/GeoLite2-City.mmdb` and the file attachment is also named `GeoLite2-City.mmdb`.
 
 An example of the returned JSON is provided at the bottom of this page. Any value can be retrieved directly from this object, but some commonly used values can be retrieved with helper functions.
 
 ### Examples
 
+```javascript
     // Get the location data as JSON.
     var locationData = libs.geoip.getLocationData(ip, contentKey, fileName);
     
@@ -49,8 +59,7 @@ An example of the returned JSON is provided at the bottom of this page. Any valu
     var cityName = libs.geoip.cityName(locationData, 'ru');
     
     // Get the name of the country from the locationData object.
-    // A language code can be added as a second parameter and will fallback
-    // to English
+    // A language code can be added as a second parameter and will fallback to English
     var countryName = libs.geoip.countryName(locationData);
     
     // Get the country ISO code from the locationData object.
@@ -58,7 +67,7 @@ An example of the returned JSON is provided at the bottom of this page. Any valu
     
     // Get the latitude and longitude from the locaationData object.
     var latLong = libs.geoip.cityGeoPoint(locationData);
-    
+```    
 
 ## Compatibility
 
@@ -68,6 +77,7 @@ An example of the returned JSON is provided at the bottom of this page. Any valu
 
 ## Example location data
 
+```javascript
     {
         "continent": {
             "code": "NA",
@@ -145,3 +155,4 @@ An example of the returned JSON is provided at the bottom of this page. Any valu
             }
         ]
     }
+```
