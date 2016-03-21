@@ -1,5 +1,5 @@
 /**
- * Functions to get location data from IP address
+ * Functions to get location data from an IP address.
  *
  * @example
  * var geoLib = require('/lib/enonic/geoip');
@@ -21,7 +21,7 @@ exports.test = function() {
  *
  * @param {string} ip The IP address to get location data for.
  *
- * @returns {object} The location data from the database as JSON.
+ * @returns {object} A JSON object with the location data for the supplied IP address.
  */
 exports.cityInfo = function(ip) {
     var bean = __.newBean("com.enonic.geoip.DbReader");
@@ -39,15 +39,15 @@ exports.cityInfo = function(ip) {
 };
 
 /**
- * Gets all location information for the given IP from the database content. If no content key and attachment filename is supplied, it will look for a content at "/GeoLite2-City.mmdb" with filename "GeoLite2-City.mmdb".
+ * Gets all location information for the given IP from the database content. If the content key and attachment filename are not supplied, it will look for a content at "/GeoLite2-City.mmdb" with attachment filename "GeoLite2-City.mmdb".
  *
  * @example-ref examples/getLocationData.js
  *
- * @param {string} ip The IP address to get location data for.
- * @param {string} [key] The key of the database content, either _id or _path starting with "/". The default is "/GeoLite2-City.mmdb".
+ * @param {string} ip A valid IPv4 or IPv6 address.
+ * @param {string} [key] The key of the database content, either the _path starting with "/" or the _id. The default is "/GeoLite2-City.mmdb".
  * @param {string} [fileName] The name of the database content attachment file. The default is "GeoLite2-City.mmdb".
  *
- * @returns {object} The location data from the database as JSON.
+ * @returns {object} A JSON object with the location data for the supplied IP address.
  */
 exports.getLocationData = function(ip, contentKey, fileName) {
     var bean = __.newBean("com.enonic.geoip.DbReadContent");
@@ -66,9 +66,11 @@ exports.getLocationData = function(ip, contentKey, fileName) {
 };
 
 /**
- * Gets the name of the city from the city object
+ * Gets the name of the city from the locationData object.
  *
- * @param {object} locationData The JSON city object returned from getLocationData()
+ * @example-ref examples/cityName.js
+ *
+ * @param {object} locationData The JSON locationData object returned from getLocationData().
  * @param {string} language The language code that the city name should be returned in. Default is "en".
  *
  * @returns {string} The name of the city. If 'language' was supplied but no city name exists in that language then the English name will be returned.
@@ -82,9 +84,11 @@ exports.cityName = function(locationData, language) {
 };
 
 /**
- * Gets the name of the country from the city object
+ * Gets the name of the country from the locationData object.
  *
- * @param {object} locationData The JSON city object returned from getLocationData()
+ * @example-ref examples/countryName.js
+ *
+ * @param {object} locationData The JSON location data object returned from getLocationData().
  * @param {string} language The language code that the country name should be returned in. Default is "en".
  *
  * @returns {string} The name of the country. If 'language' was supplied but no country name exists in that language then the English name will be returned.
@@ -98,9 +102,11 @@ exports.countryName = function(locationData, language) {
 };
 
 /**
- * Gets the ISO code of the country from the city object
+ * Gets the ISO code of the country from the location data object.
  *
- * @param {object} locationData The JSON city object returned from getLocationData()
+ * @example-ref examples/countryISO.js
+ *
+ * @param {object} locationData The JSON location data object returned from getLocationData().
  *
  * @returns {string} The ISO code of the country.
  */
@@ -112,15 +118,17 @@ exports.countryISO = function(locationData) {
 };
 
 /**
- * Gets the geo-location as latitude and longitude from the location object
+ * Gets the geo-location as latitude and longitude from the location data object.
  *
- * @param {object} locationObj The JSON location object returned from getLocationData()
+ * @example-ref examples/geoPoint.js
+ *
+ * @param {object} locationData The JSON location data object returned from getLocationData().
  *
  * @returns {string} The latitude and longitude in the format "37.6534,-122.4231".
  */
-exports.cityGeoPoint = function(locationObj) {
+exports.geoPoint = function(locationData) {
     try {
-        return locationObj.location.latitude + ',' + locationObj.location.longitude;
+        return locationData.location.latitude + ',' + locationData.location.longitude;
     } catch (e) {}
     return null;
 };

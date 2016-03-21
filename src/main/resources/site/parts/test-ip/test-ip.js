@@ -1,4 +1,4 @@
-var geoipLib = require('/lib/enonic/geoip');
+var geoLib = require('/lib/enonic/geoip');
 
 var thymeleaf = require('/lib/xp/thymeleaf');
 
@@ -13,7 +13,7 @@ function handleGet(req) {
     //log.info(model.req);
 
     // Run the tests.
-    //model.test = geoipLib.test();
+    //model.test = geoLib.test();
 
     //var ip = req.headers['X-Forwarded-For'] || req.host;
     var ip = '67.161.18.244'; // Only for testing on localhost. Change this later
@@ -21,19 +21,19 @@ function handleGet(req) {
 
 
 
-    //var info = geoipLib.cityInfo(ip);
-    var info = geoipLib.getLocationData(ip, '/GeoLite2-City.mmdb', 'GeoLite2-City.mmdb');
+    //var info = geoLib.cityInfo(ip);
+    var info = geoLib.getLocationData(ip, '/GeoLite2-City.mmdb', 'GeoLite2-City.mmdb');
 
-    //var info = geoipLib.cityInfo('67.161.18.244');
-    //var info = geoipLib.cityInfo('80.65.59.14');
+    //var info = geoLib.cityInfo('67.161.18.244');
+    //var info = geoLib.cityInfo('80.65.59.14');
 
 
     model.city = JSON.stringify(info, null, 4);
 
-    model.cityName = geoipLib.cityName(info) || 'No city name';
-    model.countryName = geoipLib.countryName(info) || 'No country name';
-    model.countryISO = geoipLib.countryISO(info) || 'No country ISO';
-    model.cityGeoPoint = geoipLib.cityGeoPoint(info) || 'No geo point';
+    model.cityName = geoLib.cityName(info) || 'No city name';
+    model.countryName = geoLib.countryName(info) || 'No country name';
+    model.countryISO = geoLib.countryISO(info) || 'No country ISO';
+    model.geoPoint = geoLib.geoPoint(info) || 'No geo point';
 
 
     return {

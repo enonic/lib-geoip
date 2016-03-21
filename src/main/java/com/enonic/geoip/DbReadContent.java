@@ -19,8 +19,8 @@ public class DbReadContent
 {
     private final static Logger LOG = LoggerFactory.getLogger( DbReader.class );
 
-    public String ip;
-    public ByteSource is;
+    private String ip;
+    private ByteSource is;
 
     public JsonNode execute() throws IOException
     {
@@ -36,5 +36,10 @@ public class DbReadContent
     public void setIp( final String ip )
     {
         this.ip = ip;
+    }
+
+    public void setIs( final ByteSource is )
+    {
+        this.is = is;
     }
 }

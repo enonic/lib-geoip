@@ -1,14 +1,16 @@
 # lib-geoip 
 
-Get location data from IPV4 or IPV6 addresses
+Get location data from IPv4 or IPv6 addresses
 
 ## Usage
 
-The GeoLite2 City database must be downloaded from https://dev.maxmind.com/geoip/geoip2/geolite2/ and saved as content in the Enonic XP installation. Get the MaxMind DB binary gzipped version, not the CSV version. **Make sure to gunzip it before saving it as content**. 
+The MaxMind **[GeoLite2 City](http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz)** database must be downloaded, unzipped, and saved as content in the Enonic XP installation. **Make sure to gunzip the file before saving it as content**. Read more about the free [MaxMind databases](https://dev.maxmind.com/geoip/geoip2/geolite2/).
 
-The database is updated the first Tuesday of each month. The location data will become less accurate if the database content is not updated frequently.
+The database is updated the first Tuesday of each month. The location data will become less accurate if the database content is not updated monthly. Make sure to get the GeoLite2 City database, binary, gzipped version, not the CSV version. 
 
 ### Gradle build script
+
+Make sure your project's build.gradle file has Enonic's public repo as a maven repository and include this library as a dependency. 
 
 ```javascript
     repositories {
@@ -24,7 +26,7 @@ The database is updated the first Tuesday of each month. The location data will 
 
 ### Using the library in controllers
 
-First the library must be included.
+The library must be included in each controller that will use geoip functions.
 
 ```javascript
     var libs = {
@@ -37,13 +39,13 @@ Next, a JSON with the location data can be retrieved with the following function
 
 Parameter `ip` can be retrieved from the request object `var ip = req.headers['X-Forwarded-For']`
 
-Parameter `contentKey` is the _id or _path (starting with /) of the database content. 
+Parameter `contentKey` is the _id or the _path (starting with /) of the database content. 
 
 Parameter `fileName` is the name of the content attachment file.
 
 The second and third parameters can be omitted if the database content is at the root of the installation with the path `/GeoLite2-City.mmdb` and the file attachment is also named `GeoLite2-City.mmdb`.
 
-An example of the returned JSON is provided at the bottom of this page. Any value can be retrieved directly from this object, but some commonly used values can be retrieved with helper functions.
+An example of the returned JSON is provided at the bottom of this page. Any value can be retrieved directly from this object, but helper functions exist for some commonly used values.
 
 ### Examples
 
@@ -51,22 +53,22 @@ An example of the returned JSON is provided at the bottom of this page. Any valu
     // Get the location data as JSON.
     var locationData = libs.geoip.getLocationData(ip, contentKey, fileName);
     
+    // Get the name of the city from the locationData object. The second parameter is optional and 
+    // defaults to 'en'. English will be used if the name does not exist in the requested language.
+    var cityName = libs.geoip.cityName(locationData, languageCode); // San Francisco
+    
     // Get the English name of the city from the locationData object.
     var cityName = libs.geoip.cityName(locationData);
     
-    // Get the Russian name of the city from the locationData object.
-    // If the Russion name does not exist, the English name will be returned.
-    var cityName = libs.geoip.cityName(locationData, 'ru');
-    
-    // Get the name of the country from the locationData object.
-    // A language code can be added as a second parameter and will fallback to English
-    var countryName = libs.geoip.countryName(locationData);
+    // Get the name of the country from the locationData object. The second parameter is optional and 
+    // defaults to 'en'. English will be used if the name does not exist in the requested language.
+    var countryName = libs.geoip.countryName(locationData, languageCode);
     
     // Get the country ISO code from the locationData object.
     var countryISO = libs.geoip.countryISO(locationData);
     
     // Get the latitude and longitude from the locaationData object.
-    var latLong = libs.geoip.cityGeoPoint(locationData);
+    var latLong = libs.geoip.geoPoint(locationData);
 ```    
 
 ## Compatibility

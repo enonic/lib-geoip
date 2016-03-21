@@ -1,4 +1,4 @@
-var geoLib = require('/lib/geoip');
+var geoLib = require('/lib/enonic/geoip');
 
 // BEGIN
 // Gets the location info by IP
