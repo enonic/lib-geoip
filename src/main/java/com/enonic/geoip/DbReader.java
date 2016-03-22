@@ -1,7 +1,7 @@
 package com.enonic.geoip;
 
 /**
- * Created by mla on 3/16/16.
+ * Created by Michael Lazell on 3/16/16.
  */
 
 import java.io.File;
@@ -22,10 +22,8 @@ public class DbReader
     private final File db = new File( System.getenv("XP_HOME") + "/config/GeoLite2-City.mmdb" );
     private String ip;
 
-    public JsonNode cityInfo() throws IOException
+    public JsonNode execute() throws IOException
     {
-
-        LOG.info( "The path of XP_HOME is: " + System.getenv( "XP_HOME" ) );
 
         //Reader r = new Reader( db, FileMode.MEMORY_MAPPED, NoCache.getInstance() );
         Reader r = new Reader( db, FileMode.MEMORY_MAPPED, new CHMCache() );

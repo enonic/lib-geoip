@@ -7,30 +7,47 @@
 
 var contentLib = require('/lib/xp/content');
 
-exports.test = function() {
+/**
+ * Runs a benchmark test with millions of random IP addresses. The test results are only visible in the log.
+ *
+ * @param {string} [key] The key of the database content, either the _path starting with "/" or the _id. The default is "/GeoLite2-City.mmdb".
+ * @param {string} [fileName] The name of the database content attachment file. The default is "GeoLite2-City.mmdb".
+ * @param {boolean} [trace] Show JSON for one in each 100,000 IP addresses tested when true.
+ *
+ * @returns {string} A string with the test complete message.
+ */
+exports.test = function(contentKey, fileName, trace) {
     var bean = __.newBean("com.enonic.geoip.DbReaderBenchmark");
-    var text = bean.test();
+    var key = contentKey || "/GeoLite2-City.mmdb";
+    var name = fileName || "GeoLite2-City.mmdb";
+    var dbContentStream, result;
+    try {
+        bean.is = contentLib.getAttachmentStream({key: key, name: name});
+        bean.trace = trace || false;
+        result = bean.test();
+    } catch (e) {
+        log.error('Error testing geoip. ' + e.message);
+    }
 
-    return 'Test complete. See log for results.';
+    return result || 'Test error. See log for results.';
 };
 
 /**
- * Gets all location information from the database at the $XP_HOME/config/GeoLite2-City.mmdb
+ * Gets all location information from the database at $XP_HOME/config/GeoLite2-City.mmdb
  *
- * @example-ref examples/cityInfo.js
+ * @example-ref examples/locationDataFromFile.js
  *
  * @param {string} ip The IP address to get location data for.
  *
  * @returns {object} A JSON object with the location data for the supplied IP address.
  */
-exports.cityInfo = function(ip) {
+exports.locationDataFromFile = function(ip) {
     var bean = __.newBean("com.enonic.geoip.DbReader");
 
-    var cityInfo, locationData;
+    var locationData;
     try {
         bean.ip = ip;
-        cityInfo = __.toNativeObject(bean.cityInfo());
-        locationData = JSON.parse(cityInfo);
+        locationData = JSON.parse( __.toNativeObject( bean.execute() ) );
     } catch (e) {
         return null;
     }

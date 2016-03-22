@@ -1,7 +1,7 @@
 package com.enonic.geoip;
 
 /**
- * Created by mla on 3/18/16.
+ * Created by Michael Lazell on 3/18/16.
  */
 
 import java.io.IOException;

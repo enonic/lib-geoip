@@ -13,7 +13,7 @@ function handleGet(req) {
     //log.info(model.req);
 
     // Run the tests.
-    //model.test = geoLib.test();
+    //model.test = geoLib.test('/GeoLite2-City.mmdb', 'GeoLite2-City.mmdb', false);
 
     //var ip = req.headers['X-Forwarded-For'] || req.host;
     var ip = '67.161.18.244'; // Only for testing on localhost. Change this later
@@ -21,11 +21,11 @@ function handleGet(req) {
 
 
 
-    //var info = geoLib.cityInfo(ip);
+    //var info = geoLib.locationDataFromFile(ip);
     var info = geoLib.getLocationData(ip, '/GeoLite2-City.mmdb', 'GeoLite2-City.mmdb');
 
-    //var info = geoLib.cityInfo('67.161.18.244');
-    //var info = geoLib.cityInfo('80.65.59.14');
+    //var info = geoLib.locationDataFromFile('67.161.18.244');
+    //var info = geoLib.locationDataFromFile('80.65.59.14');
 
 
     model.city = JSON.stringify(info, null, 4);

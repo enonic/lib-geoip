@@ -53,12 +53,12 @@ An example of the returned JSON is provided at the bottom of this page. Any valu
     // Get the location data as JSON.
     var locationData = libs.geoip.getLocationData(ip, contentKey, fileName);
     
+    // Get the English name of the city from the locationData object.
+    var cityName = libs.geoip.cityName(locationData);
+    
     // Get the name of the city from the locationData object. The second parameter is optional and 
     // defaults to 'en'. English will be used if the name does not exist in the requested language.
     var cityName = libs.geoip.cityName(locationData, languageCode); // San Francisco
-    
-    // Get the English name of the city from the locationData object.
-    var cityName = libs.geoip.cityName(locationData);
     
     // Get the name of the country from the locationData object. The second parameter is optional and 
     // defaults to 'en'. English will be used if the name does not exist in the requested language.

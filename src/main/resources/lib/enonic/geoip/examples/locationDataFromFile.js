@@ -2,7 +2,7 @@ var geoLib = require('/lib/enonic/geoip');
 
 // BEGIN
 // Gets the location info by IP
-var result = geoLib.cityInfo('67.161.18.244');
+var result = geoLib.locationDataFromFile('67.161.18.244');
 
 if (result) {
     log.info(JSON.stringify(result, null, 4));

@@ -1,10 +1,9 @@
 package com.enonic.geoip;
 
 /**
- * Created by mla on 3/11/16.
+ * Created by Michael Lazell on 3/11/16.
  */
 
-import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Random;
@@ -13,12 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.io.ByteSource;
 import com.maxmind.db.CHMCache;
 import com.maxmind.db.InvalidDatabaseException;
 import com.maxmind.db.NoCache;
 import com.maxmind.db.NodeCache;
 import com.maxmind.db.Reader;
-import com.maxmind.db.Reader.FileMode;
 
 
 public class DbReaderBenchmark
@@ -26,32 +26,35 @@ public class DbReaderBenchmark
     private final static int COUNT = 1000000;
     private final static int WARMUPS = 2;
     private final static int BENCHMARKS = 3;
-    private final static boolean TRACE = false;
+    private boolean trace;
+    private ByteSource is;
     private final static Logger LOG = LoggerFactory.getLogger( DbReaderBenchmark.class );
 
-    public String test() throws IOException, InvalidDatabaseException {
-
-        File file = new File("GeoLite2-City.mmdb");
+    public String test() throws IOException, InvalidDatabaseException
+    {
         LOG.info( "No caching" );
-        loop("Warming up", file, WARMUPS, NoCache.getInstance());
-        loop("Benchmarking", file, BENCHMARKS, NoCache.getInstance());
+        loop("Warming up", WARMUPS, NoCache.getInstance());
+        loop("Benchmarking", BENCHMARKS, NoCache.getInstance());
 
         LOG.info( "with caching" );
-        loop("Warming up", file, WARMUPS, new CHMCache());
-        loop("Benchmarking", file, BENCHMARKS, new CHMCache());
-        return "Done with geoLite benchmarks.";
+        loop("Warming up", WARMUPS, new CHMCache());
+        loop("Benchmarking", BENCHMARKS, new CHMCache());
+        LOG.info( "Benchmarking complete" );
+        return "Done with geoLite benchmarks. See log for results.";
     }
 
-    private static void loop(String msg, File file, int loops, NodeCache cache) throws IOException {
+    private void loop(String msg, int loops, NodeCache cache) throws IOException
+    {
         LOG.info( msg );
         for (int i = 0; i < loops; i++) {
-            Reader r = new Reader(file, FileMode.MEMORY_MAPPED, cache);
+            Reader r = new Reader( is.openBufferedStream(), cache );
             bench(r, COUNT, i);
         }
         LOG.info( " - " );
     }
 
-    private static void bench(Reader r, int count, int seed) throws IOException {
+    private void bench(Reader r, int count, int seed) throws IOException
+    {
         Random random = new Random(seed);
         long startTime = System.nanoTime();
         byte[] address = new byte[4];
@@ -59,10 +62,11 @@ public class DbReaderBenchmark
             random.nextBytes(address);
             InetAddress ip = InetAddress.getByAddress(address);
             JsonNode t = r.get(ip);
-            if (TRACE) {
-                if (i % 50000 == 0) {
-                    LOG.info( i + " " + ip );
-                    //LOG.info( t.toString() );
+            if (trace) {
+                if (i % 100000 == 0) {
+                    ObjectMapper mapper = new ObjectMapper( );
+                    LOG.info( i + " " + ip.getHostAddress() );
+                    LOG.info( mapper.writerWithDefaultPrettyPrinter().writeValueAsString( t ) );
                 }
             }
         }
@@ -71,5 +75,14 @@ public class DbReaderBenchmark
         long duration = endTime - startTime;
         long qps = count * 1000000000L / duration;
         LOG.info( "Requests per second: " + qps );
+    }
+
+    public void setIs( final ByteSource is )
+    {
+        this.is = is;
+    }
+    public void setTrace( final boolean trace )
+    {
+        this.trace = trace;
     }
 }
