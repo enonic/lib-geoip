@@ -29,13 +29,11 @@ Make sure your project's build.gradle file has Enonic's public repo as a maven r
 The library must be included in each controller that will use geoip functions.
 
 ```javascript
-    var libs = {
-        geoip: require('/lib/enonic/geiop');
-    }
+    var geoip = require('/lib/enonic/geiop');
 ```
 
 Next, a JSON with the location data can be retrieved with the following function: 
-`libs.geoip.getLocationData(ip, contentKey, fileName)` 
+`geoip.getLocationData(ip, contentKey, fileName)` 
 
 Parameter `ip` can be retrieved from the request object `var ip = req.headers['X-Forwarded-For']`
 
@@ -51,24 +49,24 @@ An example of the returned JSON is provided at the bottom of this page. Any valu
 
 ```javascript
     // Get the location data as JSON.
-    var locationData = libs.geoip.getLocationData(ip, contentKey, fileName);
+    var locationData = geoip.getLocationData(ip, contentKey, fileName);
     
     // Get the English name of the city from the locationData object.
-    var cityName = libs.geoip.cityName(locationData);
+    var cityName = geoip.cityName(locationData);
     
     // Get the name of the city from the locationData object. The second parameter is optional and 
     // defaults to 'en'. English will be used if the name does not exist in the requested language.
-    var cityName = libs.geoip.cityName(locationData, languageCode); // San Francisco
+    var cityName = geoip.cityName(locationData, languageCode); // San Francisco
     
     // Get the name of the country from the locationData object. The second parameter is optional and 
     // defaults to 'en'. English will be used if the name does not exist in the requested language.
-    var countryName = libs.geoip.countryName(locationData, languageCode);
+    var countryName = geoip.countryName(locationData, languageCode);
     
     // Get the country ISO code from the locationData object.
-    var countryISO = libs.geoip.countryISO(locationData);
+    var countryISO = geoip.countryISO(locationData);
     
     // Get the latitude and longitude from the locaationData object.
-    var latLong = libs.geoip.geoPoint(locationData);
+    var latLong = geoip.geoPoint(locationData);
 ```    
 
 ## Compatibility

@@ -22,7 +22,7 @@ public class DbReadContent
     private String ip;
     private ByteSource is;
 
-    public JsonNode execute() throws IOException
+    public JsonNode getLocationData() throws IOException
     {
 
         Reader r = new Reader( is.openBufferedStream(), new CHMCache() );

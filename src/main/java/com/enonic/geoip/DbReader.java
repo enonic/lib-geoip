@@ -22,7 +22,7 @@ public class DbReader
     private final File db = new File( System.getenv("XP_HOME") + "/config/GeoLite2-City.mmdb" );
     private String ip;
 
-    public JsonNode execute() throws IOException
+    public JsonNode getLocationDataFromFile() throws IOException
     {
 
         //Reader r = new Reader( db, FileMode.MEMORY_MAPPED, NoCache.getInstance() );

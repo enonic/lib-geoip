@@ -47,7 +47,7 @@ exports.locationDataFromFile = function(ip) {
     var locationData;
     try {
         bean.ip = ip;
-        locationData = JSON.parse( __.toNativeObject( bean.execute() ) );
+        locationData = JSON.parse( __.toNativeObject( bean.getLocationDataFromFile() ) );
     } catch (e) {
         return null;
     }
@@ -74,7 +74,7 @@ exports.getLocationData = function(ip, contentKey, fileName) {
     try {
         bean.ip = ip;
         bean.is = contentLib.getAttachmentStream({key: key, name: name});
-        return JSON.parse(bean.execute());
+        return JSON.parse(bean.getLocationData());
     } catch (e) {
         log.error('Error getting the city info. ' + e.message);
     }
