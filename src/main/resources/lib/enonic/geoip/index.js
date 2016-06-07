@@ -17,11 +17,12 @@ var contentLib = require('/lib/xp/content');
  * @returns {string} A string with the test complete message.
  */
 exports.test = function(contentKey, fileName, trace) {
-    var bean = __.newBean("com.enonic.geoip.DbReaderBenchmark");
     var key = contentKey || "/GeoLite2-City.mmdb";
     var name = fileName || "GeoLite2-City.mmdb";
-    var dbContentStream, result;
+    var bean, result;
+
     try {
+        bean = __.newBean("com.enonic.geoip.DbReaderBenchmark");
         bean.is = contentLib.getAttachmentStream({key: key, name: name});
         bean.trace = trace || false;
         result = bean.test();
@@ -33,7 +34,7 @@ exports.test = function(contentKey, fileName, trace) {
 };
 
 /**
- * Gets all location information from the database at $XP_HOME/config/GeoLite2-City.mmdb
+ * Gets location information from the database file at $XP_HOME/config/GeoLite2-City.mmdb
  *
  * @example-ref examples/locationDataFromFile.js
  *
@@ -42,11 +43,13 @@ exports.test = function(contentKey, fileName, trace) {
  * @returns {object} A JSON object with the location data for the supplied IP address.
  */
 exports.locationDataFromFile = function(ip) {
-    var bean = __.newBean("com.enonic.geoip.DbReader");
 
-    var locationData;
+    var bean, locationData;
     try {
-        bean.ip = ip;
+        bean = __.newBean("com.enonic.geoip.DbReader");
+        if(ip) {
+            bean.ip = ip;
+        }
         locationData = JSON.parse( __.toNativeObject( bean.getLocationDataFromFile() ) );
     } catch (e) {
         return null;
@@ -60,23 +63,25 @@ exports.locationDataFromFile = function(ip) {
  *
  * @example-ref examples/getLocationData.js
  *
- * @param {string} ip A valid IPv4 or IPv6 address.
+ * @param {string} [ip] A valid IPv4 or IPv6 address. The request remoteAddress will be used if this is null.
  * @param {string} [key] The key of the database content, either the _path starting with "/" or the _id. The default is "/GeoLite2-City.mmdb".
  * @param {string} [fileName] The name of the database content attachment file. The default is "GeoLite2-City.mmdb".
  *
  * @returns {object} A JSON object with the location data for the supplied IP address.
  */
 exports.getLocationData = function(ip, contentKey, fileName) {
-    var bean = __.newBean("com.enonic.geoip.DbReadContent");
     var key = contentKey || "/GeoLite2-City.mmdb";
     var name = fileName || "GeoLite2-City.mmdb";
-    var dbContentStream;
+
     try {
-        bean.ip = ip;
+        var bean = __.newBean("com.enonic.geoip.DbReadContent");
+        if(ip) {
+            bean.ip = ip;
+        }
         bean.is = contentLib.getAttachmentStream({key: key, name: name});
         return JSON.parse(bean.getLocationData());
     } catch (e) {
-        log.error('Error getting the city info. ' + e.message);
+        log.error('Error getting GeoIP info. ' + e.message);
     }
 
     return null;

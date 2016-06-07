@@ -1,16 +1,16 @@
 # lib-geoip 
 
-Get location data from IPv4 or IPv6 addresses
+Get location data from IPv4 and IPv6 addresses
 
 ## Usage
 
 The MaxMind **[GeoLite2 City](http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz)** database must be downloaded, unzipped, and saved as content in the Enonic XP installation. **Make sure to gunzip the file before saving it as content**. Read more about the free [MaxMind databases](https://dev.maxmind.com/geoip/geoip2/geolite2/).
 
-The database is updated the first Tuesday of each month. The location data will become less accurate if the database content is not updated monthly. Make sure to get the GeoLite2 City database, binary, gzipped version, not the CSV version. 
+The database is updated the first Tuesday of each month. The location data will become less accurate if the database content is not updated monthly. Make sure to get the binary, gzipped version of the GeoLite2 City database, not the CSV version. 
 
 ### Gradle build script
 
-Make sure your project's build.gradle file has Enonic's public repo as a maven repository and include this library as a dependency. 
+Your project's build.gradle file must have Enonic's public repo as a maven repository and also include this library as a dependency. 
 
 ```javascript
     repositories {
@@ -32,14 +32,14 @@ The library must be included in each controller that will use geoip functions.
     var geoip = require('/lib/enonic/geiop');
 ```
 
-Next, a JSON with the location data can be retrieved with the following function: 
+Next, a JSON object with the location data can be retrieved with the following function: 
 `geoip.getLocationData(ip, contentKey, fileName)` 
 
-Parameter `ip` can be retrieved from the request object `var ip = req.headers['X-Forwarded-For']`
+Parameter `ip` The IP address that location data will be retrieved for. The remoteAddress of the request will be used if this parameter is null.
 
-Parameter `contentKey` is the _id or the _path (starting with /) of the database content. 
+Parameter `contentKey` The _id or the _path (starting with /) of the database content. 
 
-Parameter `fileName` is the name of the content attachment file.
+Parameter `fileName` The name of the content attachment file.
 
 The second and third parameters can be omitted if the database content is at the root of the installation with the path `/GeoLite2-City.mmdb` and the file attachment is also named `GeoLite2-City.mmdb`.
 
@@ -73,7 +73,7 @@ An example of the returned JSON is provided at the bottom of this page. Any valu
 
 | Lib version   | XP version |
 | ------------- | ---------- |
-| 1.0.0         | 6.4.2      |
+| 1.0.0         | 6.6.0      |
 
 ## Example location data
 

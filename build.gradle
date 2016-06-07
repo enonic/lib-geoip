@@ -25,9 +25,9 @@ app {
 dependencies {
     compile "com.enonic.xp:core-api:${xpVersion}"
     compile "com.enonic.xp:portal-api:${xpVersion}"
-    include "com.maxmind.db:maxmind-db:1.2.0"
     include "com.enonic.xp:lib-content:${xpVersion}"
     include "com.enonic.xp:lib-thymeleaf:${xpVersion}"
+    include "com.maxmind.db:maxmind-db:1.2.0"
 }
 
 repositories {
