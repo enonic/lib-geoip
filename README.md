@@ -73,7 +73,7 @@ An example of the returned JSON is provided at the bottom of this page. Any valu
 
 | Lib version   | XP version |
 | ------------- | ---------- |
-| 1.0.0         | 6.5.0      |
+| 1.0.0         | 6.5.1      |
 
 ## Example location data
 
