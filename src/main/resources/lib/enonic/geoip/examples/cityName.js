@@ -1,6 +1,6 @@
 var geoLib = require('/lib/enonic/geoip');
 
-var locationData = geoLib.getLocationData('67.161.18.244', '/GeoLite2-City.mmdb', 'GeoLite2-City.mmdb');
+var locationData = geoLib.getLocationData('67.161.18.244');
 
 // BEGIN
 // Gets the city name in English from the supplied locationData object.

@@ -1,8 +1,8 @@
 var geoLib = require('/lib/enonic/geoip');
 
 // BEGIN
-// Gets the location info by IP from the GeoLite2 City database content.
-var result = geoLib.getLocationData('67.161.18.244', '/GeoLite2-City.mmdb', 'GeoLite2-City.mmdb');
+// Gets the location info by IP
+var result = geoLib.getLocationData('67.161.18.244');
 
 if (result) {
     log.info(JSON.stringify(result, null, 4));

@@ -4,6 +4,7 @@ package com.enonic.geoip;
  * Created by Michael Lazell on 3/11/16.
  */
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Random;
@@ -27,7 +28,7 @@ public class DbReaderBenchmark
     private final static int WARMUPS = 2;
     private final static int BENCHMARKS = 3;
     private boolean trace;
-    private ByteSource is;
+    private final File db = new File( System.getenv( "XP_HOME") + "/config/GeoLite2-City.mmdb" );
     private final static Logger LOG = LoggerFactory.getLogger( DbReaderBenchmark.class );
 
     public String test() throws IOException, InvalidDatabaseException
@@ -47,7 +48,8 @@ public class DbReaderBenchmark
     {
         LOG.info( msg );
         for (int i = 0; i < loops; i++) {
-            Reader r = new Reader( is.openBufferedStream(), cache );
+            //Reader r = new Reader( db, Reader.FileMode.MEMORY_MAPPED, new CHMCache() );
+            Reader r = new Reader( db, Reader.FileMode.MEMORY_MAPPED, cache );
             bench(r, COUNT, i);
         }
         LOG.info( " - " );
@@ -77,10 +79,6 @@ public class DbReaderBenchmark
         LOG.info( "Requests per second: " + qps );
     }
 
-    public void setIs( final ByteSource is )
-    {
-        this.is = is;
-    }
     public void setTrace( final boolean trace )
     {
         this.trace = trace;
