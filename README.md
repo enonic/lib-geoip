@@ -4,14 +4,15 @@ Get location data from IPv4 and IPv6 addresses. This information includes city n
 
 ## Usage
 
-The MaxMind **[GeoLite2 City](http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz)** database must be uploaded to the Enonic XP installation at `$XP_HOME/config/GeoLite2-City.mmdb`. 
+The MaxMind **[GeoLite2 City](http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz)** database must be uploaded to the `$XP_HOME/config` folder of the Enonic XP installation. This file must be named `GeoLite2-City.mmdb`. 
 **Make sure to gunzip the file**. Read more about the free [MaxMind databases](https://dev.maxmind.com/geoip/geoip2/geolite2/).
 
-MaxMind releases a new version of their database on the first Tuesday of each month. The location data will become less accurate over time if your database file is not updated frequently. Make sure to get the binary, gzipped version of the GeoLite2 City database, not the CSV version. 
+The location data will become less accurate over time if your database file is not updated frequently. MaxMind releases a new version of their database on the first Tuesday of each month. 
+Make sure to get the binary, gzipped version of the GeoLite2 City database, not the CSV version. 
 
 ### Gradle build script
 
-Your project's build.gradle file must have Enonic's public repo as a maven repository. This library must also be added as a dependency. 
+Your project's build.gradle file must have Enonic's public repo as a maven repository. This geoip library must also be added as a dependency. 
 
 ```javascript
     repositories {
@@ -36,9 +37,9 @@ The library must be included in each controller that will use GeoIP functions.
 Next, a JSON object with the location data for a given IP can be retrieved with the following function: 
 `geoip.getLocationData(ip)` 
 
-Parameter `ip` The IP address that location data will be retrieved for. The remoteAddress of the request will be used if this parameter is null.
+The `ip` parameter is the IP address that location data will be retrieved for. The remoteAddress of the request will be used if this parameter is null.
 
-An example of the returned JSON is provided at the bottom of this page. Any value can be retrieved directly from this object, but helper functions exist for some commonly used values.
+An example of the location data object is at the bottom of this page. Helper functions exist to more easily retrieve some of the commonly used values. See the examples below.
 
 ### Examples
 
@@ -69,6 +70,12 @@ An example of the returned JSON is provided at the bottom of this page. Any valu
     // Get the latitude and longitude from the locaationData object.
     var latLong = geoip.geoPoint(locationData);
 ```    
+
+### Test function
+
+There is a test function that will run through millions of random IP addresses. The results of the test are only available in the server log. Run the test 
+with `geoip.test(trace)`. The `trace` parameter is an optional boolean flag that will provide more detailed results in the log. Note that the test function
+takes several minutes to run and puts a heavy load on the server.
 
 ## Compatibility
 
