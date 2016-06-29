@@ -81,7 +81,13 @@ takes several minutes to run and puts a heavy load on the server.
 
 | Lib version   | XP version |
 | ------------- | ---------- |
-| 1.0.0         | 6.5.1      |
+| 1.0.1         | 6.5.1      |
+
+### Changelog
+
+#### 1.0.1
+
+* Removed unused libraries from the Gradle build file.
 
 ## Example location data
 
