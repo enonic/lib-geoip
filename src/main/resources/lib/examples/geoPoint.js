@@ -1,4 +1,4 @@
-var geoLib = require('/lib/enonic/geoip');
+var geoLib = require('/lib/geoip');
 
 var locationData = geoLib.getLocationData('67.161.18.244');
 
