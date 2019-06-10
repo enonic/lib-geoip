@@ -22,7 +22,7 @@ Your project's build.gradle file must have Enonic's public repo as a maven repos
     }
 
     dependencies {
-        include 'com.enonic.lib:geoip:1.0.0'
+        include 'com.enonic.lib:lib-geoip:2.0.0'
     }
 ```
 
@@ -31,7 +31,7 @@ Your project's build.gradle file must have Enonic's public repo as a maven repos
 The library must be included in each controller that will use GeoIP functions.
 
 ```javascript
-    var geoip = require('/lib/enonic/geiop');
+    var geoip = require('/lib/geoip');
 ```
 
 Next, a JSON object with the location data for a given IP can be retrieved with the following function: 
@@ -45,7 +45,7 @@ An example of the location data object is at the bottom of this page. Helper fun
 
 ```javascript
     // Include the GeoIP library
-    var geoip = require('/lib/enonic/geiop');
+    var geoip = require('/lib/geoip');
     
     // Get the location data as JSON for a given IP.
     var locationData = geoip.getLocationData(ip);
@@ -81,9 +81,14 @@ takes several minutes to run and puts a heavy load on the server.
 
 | Lib version   | XP version |
 | ------------- | ---------- |
+| 2.0.0         | 7.0.0      |
 | 1.0.1         | 6.5.1      |
 
 ### Changelog
+
+#### 2.0.0
+
+* Updating lib to be xp 7.0 compatible.
 
 #### 1.0.1
 

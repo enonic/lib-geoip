@@ -2,7 +2,7 @@
  * Functions to get location data from an IP address.
  *
  * @example
- * var geoLib = require('/lib/enonic/geoip');
+ * var geoLib = require('/lib/geoip');
  */
 
 
