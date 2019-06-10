@@ -8,7 +8,7 @@ plugins {
 dependencies {
     compile "com.enonic.xp:core-api:${xpVersion}"
     compile "com.enonic.xp:portal-api:${xpVersion}"
-    compile "com.maxmind.db:maxmind-db:1.2.0"
+    compile "com.maxmind.db:maxmind-db:1.2.2"
 }
 
 repositories {

@@ -22,7 +22,7 @@ Your project's build.gradle file must have Enonic's public repo as a maven repos
     }
 
     dependencies {
-        include 'com.enonic.lib:geoip:1.0.0'
+        include 'com.enonic.lib:lib-geoip:2.0.0'
     }
 ```
 
@@ -81,18 +81,18 @@ takes several minutes to run and puts a heavy load on the server.
 
 | Lib version   | XP version |
 | ------------- | ---------- |
-| 1.0.1         | 6.5.1      |
 | 2.0.0         | 7.0.0      |
+| 1.0.1         | 6.5.1      |
 
 ### Changelog
-
-#### 1.0.1
-
-* Removed unused libraries from the Gradle build file.
 
 #### 2.0.0
 
 * Updating lib to be xp 7.0 compatible.
+
+#### 1.0.1
+
+* Removed unused libraries from the Gradle build file.
 
 ## Example location data
 
