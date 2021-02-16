@@ -7,14 +7,13 @@ package com.enonic.geoip;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Map;
 import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.io.ByteSource;
 import com.maxmind.db.CHMCache;
 import com.maxmind.db.InvalidDatabaseException;
 import com.maxmind.db.NoCache;
@@ -63,7 +62,7 @@ public class DbReaderBenchmark
         for (int i = 0; i < count; i++) {
             random.nextBytes(address);
             InetAddress ip = InetAddress.getByAddress(address);
-            JsonNode t = r.get(ip);
+            Map<?,?> t = r.get(ip, Map.class);
             if (trace) {
                 if (i % 100000 == 0) {
                     ObjectMapper mapper = new ObjectMapper( );
