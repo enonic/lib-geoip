@@ -12,6 +12,6 @@ dependencies {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
     xp.enonicRepo()
 }
