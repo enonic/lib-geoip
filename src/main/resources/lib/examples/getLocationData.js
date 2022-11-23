@@ -13,7 +13,7 @@ if (result) {
 
 //BEGIN
 // Location info as JSON
-var expected = {
+var expected =
     {
         "continent": {
             "code": "NA",
@@ -91,5 +91,4 @@ var expected = {
             }
         ]
     }
-}
 // END

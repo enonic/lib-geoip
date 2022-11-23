@@ -8,9 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,31 +17,52 @@ import com.maxmind.db.CHMCache;
 import com.maxmind.db.Reader;
 import com.maxmind.db.Reader.FileMode;
 
-import com.enonic.xp.portal.PortalRequestAccessor;
+import com.enonic.xp.portal.PortalRequest;
+import com.enonic.xp.script.bean.BeanContext;
+import com.enonic.xp.script.bean.ScriptBean;
 
 public class DbReader
+    implements ScriptBean
 {
-    private final static Logger LOG = LoggerFactory.getLogger( DbReader.class );
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private Supplier<PortalRequest> portalRequestSupplier;
 
-    private final File db = new File( System.getenv("XP_HOME") + "/config/GeoLite2-City.mmdb" );
-    private String ip;
-    private String remoteAddr = PortalRequestAccessor.get().getRawRequest().getRemoteAddr();
+    private volatile Reader reader;
 
-    public JsonNode getLocationDataFromFile() throws IOException
+    public void init( final String databaseFilePath )
+        throws IOException
     {
+        final File database =
+            new File( Objects.requireNonNullElse( databaseFilePath, System.getenv( "XP_HOME" ) + "/config/GeoLite2-City.mmdb" ) );
 
-        //Reader r = new Reader( db, FileMode.MEMORY_MAPPED, NoCache.getInstance() );
-        Reader r = new Reader( db, FileMode.MEMORY_MAPPED, new CHMCache() );
-
-        InetAddress ipa = InetAddress.getByName( this.ip != null ? this.ip : this.remoteAddr );
-
-        return OBJECT_MAPPER.valueToTree( r.get( ipa, Map.class ) );
+        this.reader = new Reader( database, FileMode.MEMORY_MAPPED, new CHMCache() );
     }
 
-    public void setIp( final String ip )
+    public JsonNode getLocationDataFromFile( final String ip )
+        throws IOException
     {
-        this.ip = ip;
+        Reader localReader = Objects.requireNonNull( reader );
+
+        InetAddress ipa =
+            InetAddress.getByName( Objects.requireNonNullElseGet( ip, () -> portalRequestSupplier.get().getRemoteAddress() ) );
+
+        return OBJECT_MAPPER.valueToTree( localReader.get( ipa, Map.class ) );
+    }
+
+    public void dispose()
+        throws IOException
+    {
+        Reader local = reader;
+        if ( local != null )
+        {
+            local.close();
+        }
+    }
+
+    @Override
+    public void initialize( final BeanContext context )
+    {
+        this.portalRequestSupplier = context.getBinding( PortalRequest.class );
     }
 }

@@ -5,6 +5,13 @@
  * var geoLib = require('/lib/geoip');
  */
 
+const dbBean = __.newBean("com.enonic.geoip.DbReader");
+try {
+    dbBean.init(__.nullOrValue(app.config['com.enonic.lib.geoip.database.filepath']));
+} catch (e) {
+    log.warning('Can not load GeoIP database' ,e);
+}
+
 
 /**
  * Runs a benchmark test with millions of random IP addresses. The test results are only visible in the log.
@@ -13,18 +20,16 @@
  *
  * @returns {string} A string with the test complete message.
  */
-exports.test = function(trace) {
-    var bean, result;
-
+exports.test = function (trace) {
     try {
-        bean = __.newBean("com.enonic.geoip.DbReaderBenchmark");
-        bean.trace = trace || false;
-        result = bean.test();
+        const bean = __.newBean("com.enonic.geoip.DbReaderBenchmark");
+        bean.setDatabaseFilePath(__.nullOrValue(app.config['com.enonic.lib.geoip.database.filepath']));
+        bean.setTrace(trace || false);
+        return bean.test();
     } catch (e) {
         log.error('Error testing geoip. ' + e.message);
+        return 'Test error. See log for results.'
     }
-
-    return result || 'Test error. See log for results.';
 };
 
 /**
@@ -36,20 +41,12 @@ exports.test = function(trace) {
  *
  * @returns {object} A JSON object with the location data for the supplied IP address.
  */
-exports.getLocationData = function(ip) {
-
-    var bean, locationData;
+exports.getLocationData = function (ip) {
     try {
-        bean = __.newBean("com.enonic.geoip.DbReader");
-        if(ip) {
-            bean.ip = ip;
-        }
-        locationData = JSON.parse( __.toNativeObject( bean.getLocationDataFromFile() ) );
+        return JSON.parse(__.toNativeObject(dbBean.getLocationDataFromFile(__.nullOrValue(ip))));
     } catch (e) {
         return null;
     }
-
-    return locationData;
 };
 
 /**
@@ -120,3 +117,10 @@ exports.geoPoint = function(locationData) {
     return null;
 };
 
+__.disposer(function() {
+    try {
+        dbBean.dispose();
+    } catch (e) {
+        log.debug('Can not close GeoIP database', e);
+    }
+});
