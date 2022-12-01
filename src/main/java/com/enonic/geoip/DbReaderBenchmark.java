@@ -20,6 +20,8 @@ import com.maxmind.db.NoCache;
 import com.maxmind.db.NodeCache;
 import com.maxmind.db.Reader;
 
+import com.enonic.xp.home.HomeDir;
+
 
 public class DbReaderBenchmark
 {
@@ -41,7 +43,7 @@ public class DbReaderBenchmark
         throws IOException
     {
         final File database =
-            new File( Objects.requireNonNullElse( databaseFilePath, System.getenv( "XP_HOME" ) + "/config/GeoLite2-City.mmdb" ) );
+            new File( Objects.requireNonNullElse( databaseFilePath, HomeDir.get() + "/config/GeoLite2-City.mmdb" ) );
 
         LOG.info( "No caching" );
         loop( database, "Warming up", WARMUPS, NoCache.getInstance() );
