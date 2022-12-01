@@ -17,6 +17,7 @@ import com.maxmind.db.CHMCache;
 import com.maxmind.db.Reader;
 import com.maxmind.db.Reader.FileMode;
 
+import com.enonic.xp.home.HomeDir;
 import com.enonic.xp.portal.PortalRequest;
 import com.enonic.xp.script.bean.BeanContext;
 import com.enonic.xp.script.bean.ScriptBean;
@@ -34,7 +35,7 @@ public class DbReader
         throws IOException
     {
         final File database =
-            new File( Objects.requireNonNullElse( databaseFilePath, System.getenv( "XP_HOME" ) + "/config/GeoLite2-City.mmdb" ) );
+            new File( Objects.requireNonNullElse( databaseFilePath, HomeDir.get() + "/config/GeoLite2-City.mmdb" ) );
 
         this.reader = new Reader( database, FileMode.MEMORY_MAPPED, new CHMCache() );
     }
