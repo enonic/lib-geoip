@@ -86,10 +86,11 @@ takes several minutes to run and puts a heavy load on the server.
 
 ## Compatibility
 
-| Lib version   | XP version |
-| ------------- | ---------- |
-| 2.0.0         | 7.0.0      |
-| 1.0.1         | 6.5.1      |
+| Lib version | XP version |
+|-------------| ---------- |
+| 2.1.0       | 7.0.0      |
+| 2.0.0       | 7.0.0      |
+| 1.0.1       | 6.5.1      |
 
 ### Changelog
 
