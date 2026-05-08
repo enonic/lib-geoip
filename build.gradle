@@ -2,12 +2,13 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'com.enonic.defaults' version '2.1.6'
-    id 'com.enonic.xp.base' version '3.6.2'
+    id 'com.enonic.xp.base'
 }
 
 dependencies {
-    implementation "com.enonic.xp:core-api:${xpVersion}"
-    implementation "com.enonic.xp:portal-api:${xpVersion}"
+    implementation xplibs.api.core
+    implementation xplibs.api.portal
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.3'
     implementation 'com.maxmind.db:maxmind-db:3.2.0'
 }
 
