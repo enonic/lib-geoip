@@ -1,6 +1,6 @@
 [versions]
 jackson = "2.21.3"
-maxmind = "4.0.2"
+maxmind = "4.1.0"
 
 [libraries]
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
