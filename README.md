@@ -87,12 +87,17 @@ takes several minutes to run and puts a heavy load on the server.
 ## Compatibility
 
 | Lib version | XP version |
-|-------------| ---------- |
+|-------------|------------|
+| 3.0.0       | 8.0.0      |
 | 2.1.0       | 7.0.0      |
 | 2.0.0       | 7.0.0      |
 | 1.0.1       | 6.5.1      |
 
 ### Changelog
+
+#### 3.0.0
+
+* Updating lib to be xp 8.0 compatible.
 
 #### 2.0.0
 
