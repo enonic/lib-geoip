@@ -16,6 +16,7 @@ jobs:
           releaseBranch: |
             master
             2.x
+            3.x
 
   release:
     runs-on: ubuntu-latest
