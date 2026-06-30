@@ -10,7 +10,7 @@ The MaxMind **[GeoLite2 City](http://geolite.maxmind.com/download/geoip/database
 The location data will become less accurate over time if your database file is not updated frequently. MaxMind releases a new version of their database on the first Tuesday of each month. 
 Make sure to get the binary, gzipped version of the GeoLite2 City database, not the CSV version. 
 
-Starting from version 2.1.0 you can customize a location of the database file. In order to do that you should add the config `com.enonic.lib.geoip.database.filepath` option into the app config file, as in the example below:
+You can customize location of the database file via the config file, as in the example below:
 
 .com.enonic.app.appname.cfg
 ```properties
@@ -29,7 +29,7 @@ Your project's build.gradle file must have Enonic's public repo as a maven repos
     }
 
     dependencies {
-        include 'com.enonic.lib:lib-geoip:2.0.0'
+        include 'com.enonic.lib:lib-geoip:3.0.0'
     }
 ```
 
