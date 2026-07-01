@@ -16,3 +16,15 @@ repositories {
     mavenCentral()
     xp.enonicRepo()
 }
+
+// Assemble the @enonic-types/lib-geoip npm package (published on release by the CI npmPublish step).
+tasks.register('assembleTypes', Copy) {
+    from 'types'
+    into layout.buildDirectory.dir('types')
+    filesMatching('package.json') {
+        filter { line ->
+            line.replaceAll(/"version":\s*"[^"]*"/, "\"version\": \"${project.version}\"")
+        }
+    }
+}
+jar.dependsOn assembleTypes
