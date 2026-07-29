@@ -116,11 +116,3 @@ exports.geoPoint = function(locationData) {
     } catch (e) {}
     return null;
 };
-
-__.disposer(function() {
-    try {
-        dbBean.dispose();
-    } catch (e) {
-        log.debug('Can not close GeoIP database', e);
-    }
-});
