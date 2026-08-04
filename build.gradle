@@ -10,9 +10,21 @@ dependencies {
     implementation xplibs.api.portal
     implementation libs.jackson.databind
     implementation libs.maxmind.db
+
+    testImplementation "com.enonic.xp:testing:${xpVersion}"
+    testImplementation libs.junit.jupiter
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 repositories {
     mavenCentral()
-    xp.enonicRepo()
+    xp.enonicRepo('dev')
+}
+
+xp {
+    scriptEngines = ['Nashorn', 'GraalJS']
+}
+
+test {
+    useJUnitPlatform()
 }
