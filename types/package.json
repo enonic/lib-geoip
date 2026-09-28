@@ -1,0 +1,32 @@
+{
+  "name": "@enonic-types/lib-geoip",
+  "version": "0.0.0",
+  "description": "Type definitions for the Enonic XP GeoIP library",
+  "types": "index.d.ts",
+  "files": [
+    "*"
+  ],
+  "keywords": [
+    "enonic",
+    "enonic-xp",
+    "lib-geoip",
+    "geoip",
+    "types",
+    "typescript"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/enonic/lib-geoip#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enonic/lib-geoip.git"
+  },
+  "bugs": {
+    "url": "https://github.com/enonic/lib-geoip/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@enonic-types/core": "^8.0.0"
+  }
+}

@@ -2,6 +2,10 @@ name: Gradle Build
 
 on: [ push ]
 
+permissions:
+  id-token: write  # Required for npm OIDC / trusted publishing
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,6 +17,7 @@ jobs:
         with:
           repoUser: ci
           repoPassword: ${{ secrets.ARTIFACTORY_PASSWORD }}
+          npmPublish: true
           releaseBranch: |
             master
             2.x
